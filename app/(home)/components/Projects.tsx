@@ -1,7 +1,6 @@
 import React from 'react'
 import { SiCss3, SiHtml5, SiJavascript } from 'react-icons/si'
 import Title from './Title'
-import { div } from 'motion/react-client'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
 import { DirectionAwareHover } from '@/components/ui/direction-aware-hover'
