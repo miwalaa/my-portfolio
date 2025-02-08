@@ -18,7 +18,7 @@ export default function HeroSection() {
 
             }
         </p>
-        <Link href={"mailto:some@gmail.com"} className='inline-block group'>
+        <Link href={"mailto:anonimdante79@gmail.com"} className='inline-block group'>
             <Title text='Contact Me 📭'/>
         </Link>
       </div>
@@ -36,7 +36,7 @@ export default function HeroSection() {
         </div>
         <div className='absolute bottom-5 sm:bottom-14 left-0 sm-:left-10'>
             <MovingBorderBtn borderRadius='0.5rem' className='p-3 font-semibold'>
-                <p>🚀 Download CV</p>
+                <a>🚀 Download CV</a>
             </MovingBorderBtn>
         </div>
       </div>
