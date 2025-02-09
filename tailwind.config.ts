@@ -12,27 +12,17 @@ export default {
   theme: {
     extend: {
       keyframes: {
-        "move-up": {
-          from: {
-            transform: "translateY(10px)",
-            opacity: "0",
+          "move-up": {
+            "0%": { transform: "translateY(10px)", opacity: "0" },
+            "30%": { transform: "translateY(10px)", opacity: "0" }, // Delay effect
+            "100%": { transform: "translateY(0)", opacity: "1" },
           },
-          to: {
-            transform: "translateY(0)",
-            opacity: "1",
+          "move-down": {
+            "0%": { transform: "translateY(-10px)", opacity: "0" },
+            "30%": { transform: "translateY(-10px)", opacity: "0" }, // Delay effect
+            "100%": { transform: "translateY(0)", opacity: "1" },
           },
-        },
-        "move-down": {
-          from: {
-            transform: "translateY(-10px)",
-            opacity: "0",
-          },
-          to: {
-            transform: "translateY(0)",
-            opacity: "1",
-          },
-        },
-        "accordion-down": {
+            "accordion-down": {
           from: { height: "0" },
           to: { height: "var(--radix-accordion-content-height)" },
         },
