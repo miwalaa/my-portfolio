@@ -16,7 +16,7 @@ export default function Navbar({ className }: { className?:string }) {
             Icon: SiGithub,
         },
         {
-            link: "https://www.x.com/miwala",
+            link: "https://www.x.com/miwamiwamiwa79",
             label: "X",
             Icon: SiX,
         }
