@@ -10,29 +10,29 @@ export default function Projects() {
         {
             title: "Palindrome Checker",
             tech: [SiHtml5, SiCss3, SiJavascript],
-            link: "http://localhost:3000",
+            link: "https://miwalaa.github.io/freecodecamp-javascript-algorithms-and-data-structures/palindrome-checker/index.html",
             cover: "/project-1.png",
             background: "bg-indigo-500"
         },
         {
             title: "Roman Numeral Converter",
             tech: [SiHtml5, SiCss3, SiJavascript],
-            link: "http://localhost:3000",
-            cover: "/project-1.png",
+            link: "https://miwalaa.github.io/freecodecamp-javascript-algorithms-and-data-structures/roman-numeral-converter/index.html",
+            cover: "/project-2.png",
             background: "bg-green-500"
         },
         {
             title: "Telephone Number Validator",
             tech: [SiHtml5, SiCss3, SiJavascript],
-            link: "http://localhost:3000",
-            cover: "/project-1.png",
+            link: "https://miwalaa.github.io/freecodecamp-javascript-algorithms-and-data-structures/telephone-number-validator/index.html",
+            cover: "/project-3.png",
             background: "bg-blue-500"
         },
         {
             title: "Cash Register",
             tech: [SiHtml5, SiCss3, SiJavascript],
-            link: "http://localhost:3000",
-            cover: "/project-1.png",
+            link: "https://miwalaa.github.io/freecodecamp-javascript-algorithms-and-data-structures/cash-register/index.html",
+            cover: "/project-4.png",
             background: "bg-pink-500"
         },
     ]
