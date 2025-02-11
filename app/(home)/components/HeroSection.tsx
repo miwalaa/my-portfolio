@@ -19,7 +19,7 @@ export default function HeroSection() {
         <p className='md:w-96 text-lg text-gray-300'>
             {
 
-            "Based in Indonesia, I'm a selft-taught Programmer passionate about building a modern web application that users love."
+            "Based in Indonesia, I'm a self-taught Programmer passionate about building a modern web application that users love."
 
             }
         </p>
