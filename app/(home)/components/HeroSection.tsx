@@ -44,7 +44,7 @@ export default function HeroSection() {
             borderRadius="0.5rem" 
             className="p-3 font-semibold transition-all duration-200 hover:bg-sky-400/20 hover:shadow-lg"
           >
-            <a href="https://drive.google.com/file/d/1FCxKHab1zFqsG_VO1MZAypOLO7TqPv1N/view?usp=sharing">🚀 Download CV</a>
+            <a href="https://drive.google.com/file/d/1vQe2uClN-eriaN3Po0U7IiL1OmhEUdnp/view?usp=sharing">🚀 Download CV</a>
           </MovingBorderBtn>
         </div>
       </div>
