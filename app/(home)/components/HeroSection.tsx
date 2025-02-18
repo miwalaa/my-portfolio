@@ -1,8 +1,6 @@
 "use client";
 import { MovingBorderBtn } from '@/components/ui/moving.border';
-import Link from 'next/link'
 import React from 'react'
-import Title from './Title'
 import AnimatedLetters from './AnimatedLetters';
 
 export default function HeroSection() {
@@ -19,13 +17,10 @@ export default function HeroSection() {
         <p className='md:w-96 text-lg text-gray-300'>
             {
 
-            "Based in Indonesia, I'm a self-taught Programmer passionate about building a modern web application that users love."
+            "I’m a Front-End Developer from Indonesia, driven by a passion for building modern web applications that not only solve problems but also create delightful user experiences. With a strong focus on clean code, intuitive design, and responsive interfaces, I strive to build applications that are both functional and beautiful. I enjoy transforming ideas into interactive, user-friendly digital products that engage and resonate with users. Continuously learning and evolving, I’m committed to honing my skills and staying on top of industry trends to deliver the best possible experience."
 
             }
         </p>
-        <Link href={"mailto:anonimdante79@gmail.com"} className='inline-block group'>
-            <Title text='Contact Me 📭'/>
-        </Link>
       </div>
       <div className='relative'>
         <div className='w-72 h-72 space-y-3 -rotate-[30deg] relative'>
