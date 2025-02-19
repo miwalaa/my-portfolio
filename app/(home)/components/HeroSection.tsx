@@ -3,7 +3,7 @@ import { MovingBorderBtn } from '@/components/ui/moving.border';
 import Link from 'next/link'
 import React from 'react'
 import Title from './Title'
-import AnimatedLetters from './AnimatedLetters';
+import AnimatedLetters from '../../../components/ui/AnimatedLetters';
 
 export default function HeroSection() {
 
