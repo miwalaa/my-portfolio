@@ -12,7 +12,7 @@ export default function AnimatedLetters({ text, delay = 0 }: AnimatedLettersProp
       {Array.from(text).map((char, index) => (
         <motion.span
           key={`${char}-${index}`}
-          className="inline-block text-white cursor-pointer transition-all duration-100 ease-out"
+          className="inline-block text-white transition-all duration-100 ease-out"
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: delay + index * 0.03, duration: 0.2 }}
