@@ -7,25 +7,25 @@ const spaceGrotesk = Space_Grotesk({ subsets: ['latin'] });
 
 
 export const metadata: Metadata = {
-	metadataBase: new URL("https://localhost:3000"),
+	metadataBase: new URL("https://miwa-laksmana.vercel.app/"),
 
-	title: "Miwa Laksmana Anthony",
+	title: "Miwa's Personal Portfolio",
 	authors: {
-		name: "Miwa Laksmana",
+		name: "Miwa Laksmana Anthony",
 	},
 
 	description:
-		"Based in Indonesia, I'm a selft-taught Programmer passionate about building a modern web application that users love.",
+		"I'm a Front-End Developer from Indonesia, driven by a passion for building modern web applications that not only solve problems but also create delightful user experiences.",
 	openGraph: {
 		title: "Miwa Laksmana",
 		description:
-			"Based in Indonesia, I'm a selft-taught Programmer passionate about building a modern web application that users love.",
-		url: "https://localhost:3000",
-		siteName: "Miwa Laksmana",
+			"I'm a Front-End Developer from Indonesia, driven by a passion for building modern web applications that not only solve problems but also create delightful user experiences.",
+		url: "https://miwa-laksmana.vercel.app/",
+		siteName: "my-portfolio",
 		images: "/og.png",
 		type: "website",
 	},
-	keywords: ["daily web coding", "chensokheng", "dailywebcoding"],
+	keywords: ["personal portfolio", "miwalaksmana", "dailywebcoding"],
 };
 
 
