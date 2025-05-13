@@ -1,5 +1,5 @@
 import React from 'react'
-import { SiCss3, SiHtml5, SiJavascript } from 'react-icons/si'
+import { SiCss3, SiHtml5, SiJavascript, SiReact, SiTailwindcss, SiVite } from 'react-icons/si'
 import Title from './Title'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
@@ -8,9 +8,9 @@ import { DirectionAwareHover } from '@/components/ui/direction-aware-hover'
 export default function Projects() {
     const projects = [
         {
-            title: "Palindrome Checker",
-            tech: [SiHtml5, SiCss3, SiJavascript],
-            link: "https://miwalaa.github.io/freecodecamp-javascript-algorithms-and-data-structures/palindrome-checker/index.html",
+            title: "AI Recipe Generator",
+            tech: [SiVite, SiReact, SiTailwindcss],
+            link: "https://ai-recipe-generator-jet.vercel.app/",
             cover: "/project-1.png",
             background: "bg-indigo-500"
         },
