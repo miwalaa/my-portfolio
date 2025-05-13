@@ -24,7 +24,7 @@ export default function Footer() {
 
   return (
     <nav className={cn(
-      'py-10 flex-col place-items-center border-t mt-10 animate-move-down'
+      'flex flex-col items-center py-10 border-t mt-10 animate-move-down'
   )}>
       <img src="../../favicon.ico" alt="M" className='h-10 mb-4' />
       <div className='flex gap-5'>
