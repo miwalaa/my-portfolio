@@ -1,78 +1,126 @@
-import React from "react";
-import {
-  SiCss3,
-  SiHtml5,
-  SiJavascript,
-  SiReact,
-  SiTailwindcss,
-  SiVite,
-} from "react-icons/si";
-import Title from "./Title";
+"use client";
 import Link from "next/link";
-import { cn } from "@/lib/utils";
-import { DirectionAwareHover } from "@/components/ui/direction-aware-hover";
+import ProjectModal from "./ProjectModal";
+import { useState } from "react";
+
+interface Project {
+  id: number;
+  title: string;
+  tags: string[];
+}
 
 export default function Projects() {
-  const projects = [
+  const projects: Project[] = [
     {
-      title: "AI Recipe Generator",
-      tech: [SiVite, SiReact, SiTailwindcss],
-      link: "https://ai-recipe-generator-jet.vercel.app/",
-      cover: "/project-1.png",
-      background: "bg-indigo-500",
+      id: 1,
+      title: "Ai Summarization Tool",
+      tags: ["AWS", "React", "Cloud"],
     },
     {
-      title: "Roman Numeral Converter",
-      tech: [SiHtml5, SiCss3, SiJavascript],
-      link: "https://miwalaa.github.io/freecodecamp-javascript-algorithms-and-data-structures/roman-numeral-converter/index.html",
-      cover: "/project-2.png",
-      background: "bg-green-500",
+      id: 2,
+      title: "Newsletter App",
+      tags: ["NextJS", "Cloudflare", "PayloadCMS"],
     },
     {
-      title: "Telephone Number Validator",
-      tech: [SiHtml5, SiCss3, SiJavascript],
-      link: "https://miwalaa.github.io/freecodecamp-javascript-algorithms-and-data-structures/telephone-number-validator/index.html",
-      cover: "/project-3.png",
-      background: "bg-blue-500",
+      id: 3,
+      title: "Feedback Platform",
+      tags: ["TS", "Postgres", "DrizzleORM"],
     },
     {
-      title: "Cash Register",
-      tech: [SiHtml5, SiCss3, SiJavascript],
-      link: "https://miwalaa.github.io/freecodecamp-javascript-algorithms-and-data-structures/cash-register/index.html",
-      cover: "/project-4.png",
-      background: "bg-pink-500",
+      id: 4,
+      title: "AI Quiz Generator",
+      tags: ["TS", "NextJS", "DrizzleORM"],
+    },
+    {
+      id: 5,
+      title: "Form Builder Tool",
+      tags: ["NextJS", "React", "TailwindCSS", "Prisma"],
+    },
+    {
+      id: 6,
+      title: "Blog Website",
+      tags: ["MDX", "NextJS", "TailwindCSS", "Framer Motion"],
     },
   ];
 
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+
+  const handleProjectClick = (project: Project) => {
+    setSelectedProject(project);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedProject(null);
+  };
+
+  const handleNextProject = () => {
+    if (!selectedProject) return null;
+
+    const currentIndex = projects.findIndex(
+      (project) => project.id === selectedProject.id
+    );
+
+    if (currentIndex === -1) {
+      return null;
+    }
+
+    const nextIndex = (currentIndex + 1) % projects.length;
+    setSelectedProject(projects[nextIndex]);
+  };
+
+  const handlePrevProject = () => {
+    if (!selectedProject) return null;
+
+    const currentIndex = projects.findIndex(
+      (project) => project.id === selectedProject.id
+    );
+
+    if (currentIndex === -1) {
+      return null;
+    }
+
+    const prevIndex = (currentIndex - 1 + projects.length) % projects.length;
+    setSelectedProject(projects[prevIndex]);
+  };
+
   return (
-    <div className="py-10 p-5 sm:p-0">
-      <Title
-        text="Projects 🎨"
-        className="flex flex-col items-center -rotate-6"
-      />
-      <div className="grid grid-cols-1 sm:grid-cols-2 pt-20 gap-5">
-        {projects.map((project, idx) => {
-          return (
-            <Link href={project.link} key={idx}>
-              <div className={cn("p-5 rounded-md", project.background)}>
-                <DirectionAwareHover
-                  imageUrl={project.cover}
-                  className="w-full space-y-5 cursor-pointer"
-                >
-                  <div className="space-y-5">
-                    <h1 className="text-2xl font-bold">{project.title}</h1>
-                    <div className="flex items-center gap-5">
-                      {project.tech.map((Icon, idx) => {
-                        return <Icon className="w-8 h-8" key={idx} />;
-                      })}
-                    </div>
-                  </div>
-                </DirectionAwareHover>
+    <div id="projects" className="py-10 p-5 sm:p-0">
+      <h2 className="text-3xl font-bold text-white mb-12 text-center">
+        Featured Projects
+      </h2>
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        {projects.map((project, index) => (
+          <button
+            key={index}
+            onClick={() => handleProjectClick(project)}
+            className="bg-gray-800/30 backdrop-blur-sm rounded-lg p-8 border border-gray-700/50 hover:border-green-500/50 transition-colors hover:shadow-sm text-left"
+          >
+            <div className="flex flex-col h-full">
+              <h3 className="text-lg font-semibold text-white mb-2">
+                {project.title}
+              </h3>
+              <div className="flex flex-wrap gap-1 mt-auto">
+                {project.tags.map((tag, index) => (
+                  <span
+                    key={index}
+                    className="px-2 py-0.5 text-xs rounded-full bg-green-500/20 text-green-300 border border-green-500/30"
+                  >
+                    {tag}
+                  </span>
+                ))}
               </div>
-            </Link>
-          );
-        })}
+            </div>
+          </button>
+        ))}
       </div>
+      {selectedProject && (
+        <ProjectModal
+          project={selectedProject}
+          onClose={handleCloseModal}
+          onNext={handleNextProject}
+          onPrev={handlePrevProject}
+        />
+      )}
     </div>
   );
 }

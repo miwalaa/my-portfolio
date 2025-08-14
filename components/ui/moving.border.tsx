@@ -90,22 +90,40 @@ export const MovingBorder = ({
     if (pathRef.current && document.body.contains(pathRef.current)) {
       try {
         const length = pathRef.current.getTotalLength();
-        const pxPerMillisecond = length / duration;
-        progress.set((time * pxPerMillisecond) % length);
+        if (length > 0) {
+          const pxPerMillisecond = length / duration;
+          progress.set((time * pxPerMillisecond) % length);
+        }
       } catch (e) {
-        // Handle case where getTotalLength fails
-        console.warn("Error calculating path length:", e);
+        console.warn("Error in animation frame:", e);
       }
     }
   });
 
   const x = useTransform(
     progress,
-    (val) => pathRef.current?.getPointAtLength(val).x
+    (val) => {
+      if (!pathRef.current) return 0;
+      try {
+        return pathRef.current.getPointAtLength(val).x;
+      } catch (e) {
+        console.warn('Error getting x position:', e);
+        return 0;
+      }
+    }
   );
+  
   const y = useTransform(
     progress,
-    (val) => pathRef.current?.getPointAtLength(val).y
+    (val) => {
+      if (!pathRef.current) return 0;
+      try {
+        return pathRef.current.getPointAtLength(val).y;
+      } catch (e) {
+        console.warn('Error getting y position:', e);
+        return 0;
+      }
+    }
   );
 
   const transform = useMotionTemplate`translateX(${x}px) translateY(${y}px) translateX(-50%) translateY(-50%)`;
