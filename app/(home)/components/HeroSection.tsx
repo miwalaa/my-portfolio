@@ -1,53 +1,46 @@
 "use client";
-import { MovingBorderBtn } from '@/components/ui/moving.border';
-import Link from 'next/link'
-import React from 'react'
-import Title from './Title'
-import AnimatedLetters from '../../../components/ui/AnimatedLetters';
+import React from "react";
+import AnimatedLetters from "@/components/ui/AnimatedLetters";
+import Spline from "@splinetool/react-spline";
+import { MovingBorderBtn } from "@/components/ui/moving.border";
 
 export default function HeroSection() {
-
   return (
-    <div className='min-h-[60vh] flex flex-col-reverse gap-14 lg:gap-0 lg:flex-row items-center justify-between animate-move-up'>
-      <div className='space-y-10 text-center lg:text-left'>
-        <h1 
-        className='text-4xl lg:text-7xl font-bold cursor-default'>
-                <AnimatedLetters text="Nice to meet you! 👋" />
-                <br />
-                <AnimatedLetters text="I'm Miwa" delay={0.5} />
+    <div
+      className="min-h-[60vh] flex flex-col-reverse gap-12 lg:gap-0 lg:flex-row items-center justify-between animate-move-up"
+      id="about"
+    >
+      <div className="lg:space-y-5 space-y-2 text-center lg:text-left">
+        <h1 className="text-4xl lg:text-6xl font-bold cursor-default">
+          <AnimatedLetters text="Miwa Laksmana" />
         </h1>
-        <p className='max-w-4xl mx-auto text-lg text-gray-300'>
-            {
-
-            "I'm a Front-End Developer from Indonesia, driven by a passion for building modern web applications that not only solve problems but also create delightful user experiences."
-
-            }
+        <p className="max-w-3xl mx-auto text-xl lg:text-3xl font-bold text-white">
+          {"Full Stack Web Developer"}
         </p>
-        <Link href={"mailto:anonimdante79@gmail.com"} className='inline-block group'>
-            <Title text='Contact Me 📭'/>
-        </Link>
-      </div>
-      <div className='relative'>
-        <div className='w-72 h-72 space-y-3 -rotate-[30deg] relative'>
-            <div className='flex gap-3 translate-x-8'>
-                <div className='w-32 h-32 rounded-2xl bg-green-500'></div>
-                <div className='w-32 h-32 rounded-full bg-indigo-500'></div>
-            </div>
-            <div className='flex gap-3 -translate-x-8'>
-                <div className='w-32 h-32 rounded-2xl bg-indigo-500'></div>
-                <div className='w-32 h-32 rounded-full bg-green-500'></div>
-            </div>
-            <div className='glow absolute top-[40%] right-1/2 -z-10'></div>
-        </div>
-        <div className="absolute bottom-5 sm:bottom-14 left-0 sm:left-10">
-          <MovingBorderBtn 
-            borderRadius="0.5rem" 
-            className="p-3 font-semibold transition-all duration-200 hover:bg-sky-400/20 hover:shadow-lg"
+        <p className="max-w-4xl mx-auto text-lg text-gray-300">
+          {
+            "Building modern web applications that not only solve problems but also create delightful user experiences."
+          }
+        </p>
+        <MovingBorderBtn
+          borderRadius="0.5rem"
+          className="w-full p-3 font-semibold transition-all duration-200 hover:bg-sky-400/20 hover:shadow-lg"
+          containerClassName="w-full hidden md:block"
+        >
+          <a
+            href="https://drive.google.com/file/d/1nlsZP4AClli1VIMrD3yONkvF8XpjNtik/view?usp=sharing"
+            className="w-full justify-center"
           >
-            <a href="https://drive.google.com/file/d/1nlsZP4AClli1VIMrD3yONkvF8XpjNtik/view?usp=sharing">🚀 Download CV</a>
-          </MovingBorderBtn>
-        </div>
+            🚀 Download CV
+          </a>
+        </MovingBorderBtn>
+      </div>
+      <div className="relative w-full max-w-3xl h-[50vh] min-h-[300px] md:h-[60vh] lg:h-[70vh]">
+        <Spline
+          scene="https://prod.spline.design/w2fPTp2mz7kCyOwD/scene.splinecode"
+          className="w-full h-full"
+        />
       </div>
     </div>
-  )
+  );
 }

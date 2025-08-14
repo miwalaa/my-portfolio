@@ -82,15 +82,20 @@ export const MovingBorder = ({
   ry?: string;
   [key: string]: any;
 }) => {
-  const pathRef = useRef<SVGRectElement | null>(null); 
+  const pathRef = useRef<SVGRectElement | null>(null);
 
   const progress = useMotionValue<number>(0);
 
   useAnimationFrame((time) => {
-    const length = pathRef.current?.getTotalLength();
-    if (length) {
-      const pxPerMillisecond = length / duration;
-      progress.set((time * pxPerMillisecond) % length);
+    if (pathRef.current && document.body.contains(pathRef.current)) {
+      try {
+        const length = pathRef.current.getTotalLength();
+        const pxPerMillisecond = length / duration;
+        progress.set((time * pxPerMillisecond) % length);
+      } catch (e) {
+        // Handle case where getTotalLength fails
+        console.warn("Error calculating path length:", e);
+      }
     }
   });
 
