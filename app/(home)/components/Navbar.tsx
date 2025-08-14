@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
 import { MovingBorderBtn } from "@/components/ui/moving.border";
 
 // Constants
-const NAV_ITEMS = ["About", "Projects", "Blog", "Contact"] as const;
+const NAV_ITEMS = ["Projects", "Blog", "Contact"] as const;
 const CV_LINK =
   "https://drive.google.com/file/d/1nlsZP4AClli1VIMrD3yONkvF8XpjNtik/view?usp=sharing";
 
