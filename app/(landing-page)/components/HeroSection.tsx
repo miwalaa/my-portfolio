@@ -13,7 +13,7 @@ export default function HeroSection() {
   };
 
   return (
-    <div className="min-h-[60vh] flex flex-col-reverse gap-12 lg:gap-0 lg:flex-row items-center justify-between animate-move-up">
+    <section className="min-h-[60vh] flex flex-col-reverse gap-12 lg:gap-0 lg:flex-row items-center justify-between animate-move-up">
       <div className="lg:space-y-5 space-y-2 text-center md:text-left">
         <h1 className="text-4xl md:text-7xl lg:text-6xl font-bold cursor-default">
           <AnimatedLetters text="Miwa Laksmana" />
@@ -54,6 +54,6 @@ export default function HeroSection() {
           onLoad={handleLoad}
         />
       </div>
-    </div>
+    </section>
   );
 }

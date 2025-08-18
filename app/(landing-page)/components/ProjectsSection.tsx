@@ -145,7 +145,7 @@ export default function Projects() {
   };
 
   return (
-    <div id="projects" className="py-10 p-5 sm:p-0">
+    <section id="projects" className="py-10 p-5 sm:p-0">
       <h2 className="text-3xl font-bold text-white mb-12 text-center">
         Featured Projects
       </h2>
@@ -182,6 +182,6 @@ export default function Projects() {
           onPrev={handlePrevProject}
         />
       )}
-    </div>
+    </section>
   );
 }

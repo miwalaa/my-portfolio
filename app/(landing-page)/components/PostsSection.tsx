@@ -21,7 +21,7 @@ export default async function PostsSection() {
 
   console.log(posts);
   return (
-    <div
+    <section
       id="blog"
       className="mx-auto max-w-7xl mt-10 md:mt-20 py-10 px-4 sm:px-6 lg:px-8"
     >
@@ -54,6 +54,6 @@ export default async function PostsSection() {
           ))}
         </div>
       </div>
-    </div>
+    </section>
   );
 }

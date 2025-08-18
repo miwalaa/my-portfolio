@@ -2,8 +2,9 @@ import React from "react";
 import Navbar from "./components/Navbar";
 import HeroSection from "./components/HeroSection";
 import Projects from "./components/ProjectsSection";
-import Footer from "./components/Footer";
+import Footer from "./components/FooterSection";
 import PostsSection from "./components/PostsSection";
+import ContactSection from "./components/ContactSection";
 
 export default function page() {
   return (
@@ -17,6 +18,7 @@ export default function page() {
       <div className="max-w-7xl mx-auto p-5 mt-10">
         <Projects />
         <PostsSection />
+        <ContactSection />
         <Footer />
       </div>
     </div>
