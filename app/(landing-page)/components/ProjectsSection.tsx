@@ -1,10 +1,40 @@
 "use client";
 import ProjectModal from "./ProjectModal";
 import { useState } from "react";
-
+import { motion, AnimatePresence, Variants } from "framer-motion";
 import { Project } from "@/types";
+import { cn } from "@/lib/utils";
 
 export default function Projects() {
+  // State declarations at the top
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+
+  // Animation variants
+  const container: Variants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.2,
+      },
+    },
+  };
+
+  const item: Variants = {
+    hidden: { opacity: 0, y: 20 },
+    show: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.5,
+        ease: "easeInOut" as const,
+      },
+    },
+  };
+
+  // Move projects array before any effects or returns
   const projects: Project[] = [
     {
       id: 1,
@@ -104,8 +134,6 @@ export default function Projects() {
     },
   ];
 
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-
   const handleProjectClick = (project: Project) => {
     setSelectedProject(project);
   };
@@ -145,35 +173,74 @@ export default function Projects() {
   };
 
   return (
-    <section id="projects" className="py-10 p-5 sm:p-0">
-      <h2 className="text-3xl font-bold text-white mb-12 text-center">
-        Featured Projects
-      </h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <motion.section
+      id="projects"
+      className="mx-auto max-w-7xl mt-10 md:mt-20 py-10 px-4 sm:px-6 lg:px-8"
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true, amount: 0.2 }}
+      variants={container}
+    >
+      <motion.div className="text-center mb-12" variants={item}>
+        <h2 className="text-3xl sm:text-4xl font-bold text-white">
+          Featured Projects
+        </h2>
+      </motion.div>
+      <motion.div
+        className={cn("grid grid-cols-1 sm:grid-cols-2 gap-4")}
+        variants={container}
+      >
         {projects.map((project, index) => (
-          <button
+          <motion.div
             key={index}
-            onClick={() => handleProjectClick(project)}
-            className="bg-gray-800/30 backdrop-blur-sm rounded-lg p-8 border border-gray-700/50 hover:border-green-500/50 transition-colors hover:shadow-sm text-left"
+            className="relative group block p-2 h-full w-full"
+            onMouseEnter={() => setHoveredIndex(index)}
+            onMouseLeave={() => setHoveredIndex(null)}
+            variants={item}
+            whileHover={{ y: -5 }}
+            transition={{ duration: 0.2 }}
           >
-            <div className="flex flex-col h-full">
-              <h3 className="text-lg font-semibold text-white mb-4">
-                {project.title}
-              </h3>
-              <div className="flex flex-wrap gap-1 mt-auto">
-                {project.tags.map((tag, index) => (
-                  <span
-                    key={index}
-                    className="px-2 py-0.5 text-xs rounded-full bg-green-500/20 text-green-300 border border-green-500/30"
-                  >
-                    {tag}
-                  </span>
-                ))}
+            <AnimatePresence>
+              {hoveredIndex === index && (
+                <motion.span
+                  className="absolute inset-0 h-full w-full block rounded-lg"
+                  layoutId="hoverBackground"
+                  initial={{ opacity: 0 }}
+                  animate={{
+                    opacity: 1,
+                    transition: { duration: 0.3 },
+                  }}
+                  exit={{
+                    opacity: 0,
+                    transition: { duration: 0.3, delay: 0.2 },
+                  }}
+                />
+              )}
+            </AnimatePresence>
+            <button
+              onClick={() => handleProjectClick(project)}
+              className="rounded-md w-full p-6 overflow-hidden bg-[#090c11] backdrop-blur-sm group-hover:ring-2 ring-green-500 relative transition-all duration-500 border border-gray-700/50 text-left h-full"
+            >
+              <div className="relative space-y-4">
+                <h3 className="text-lg font-semibold text-white">
+                  {project.title}
+                </h3>
+                <p className="text-sm text-gray-300">{project.description}</p>
+                <div className="flex flex-wrap gap-1 pt-2">
+                  {project.tags.map((tag, tagIndex) => (
+                    <span
+                      key={tagIndex}
+                      className="px-2 py-0.5 text-xs rounded-full bg-green-500/20 text-green-300 border border-green-500/30"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
               </div>
-            </div>
-          </button>
+            </button>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
       {selectedProject && (
         <ProjectModal
           project={selectedProject}
@@ -182,6 +249,6 @@ export default function Projects() {
           onPrev={handlePrevProject}
         />
       )}
-    </section>
+    </motion.section>
   );
 }

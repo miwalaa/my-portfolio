@@ -1,12 +1,56 @@
+"use client";
+
+import { motion, Variants } from "framer-motion";
+
 export default function ContactSection() {
+
+  // Animation variants
+  const container: Variants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.2,
+      },
+    },
+  };
+
+  const item: Variants = {
+    hidden: { opacity: 0, y: 20 },
+    show: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.5,
+        ease: "easeInOut" as const,
+      },
+    },
+  };
+
   return (
-    <section id="contact" className="py-20 max-w-7xl mx-auto">
-      <h2 className="text-4xl font-bold text-white mb-12 text-center">
-        Get in Touch
-      </h2>
-      <div className="bg-gray-800/30 backdrop-blur-sm rounded-xl p-8 border border-gray-700/50 hover:border-green-500/50 transition-colors hover:shadow-sm">
-        <form className="space-y-6 max-w-2xl mx-auto">
-          <div className="space-y-4">
+    <motion.section
+      id="contact"
+      className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true, amount: 0.2 }}
+      variants={container}
+    >
+      <motion.div className="text-center mb-12" variants={item}>
+        <h2 className="text-3xl sm:text-4xl font-bold text-white">
+          Get in Touch
+        </h2>
+      </motion.div>
+      <motion.div
+        className="bg-gray-800/30 backdrop-blur-sm rounded-xl p-8 border border-gray-700/50 hover:border-green-500/50 transition-colors hover:shadow-sm"
+        variants={item}
+      >
+        <motion.form
+          className="space-y-6 max-w-2xl mx-auto"
+          variants={container}
+        >
+          <motion.div className="space-y-4" variants={item}>
             <label htmlFor="name" className="text-gray-300 text-sm font-medium">
               Your Name
             </label>
@@ -17,9 +61,9 @@ export default function ContactSection() {
               className="w-full p-4 bg-gray-700/50 border border-gray-600/50 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-transparent transition-all"
               required
             />
-          </div>
+          </motion.div>
 
-          <div className="space-y-4">
+          <motion.div className="space-y-4" variants={item}>
             <label
               htmlFor="email"
               className="text-gray-300 text-sm font-medium"
@@ -33,9 +77,9 @@ export default function ContactSection() {
               className="w-full p-4 bg-gray-700/50 border border-gray-600/50 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-transparent transition-all"
               required
             />
-          </div>
+          </motion.div>
 
-          <div className="space-y-4">
+          <motion.div className="space-y-4" variants={item}>
             <label
               htmlFor="message"
               className="text-gray-300 text-sm font-medium"
@@ -48,19 +92,19 @@ export default function ContactSection() {
               className="w-full p-4 bg-gray-700/50 border border-gray-600/50 rounded-lg text-white placeholder-gray-400 h-40 focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-transparent transition-all resize-none"
               required
             ></textarea>
-          </div>
+          </motion.div>
 
-          <div className="pt-6">
+          <motion.div className="pt-6" variants={item}>
             <button
               type="submit"
-              className="w-full py-2 px-4 text-sm font-medium rounded-lg bg-green-500/20 text-green-300 border border-green-500/30 hover:bg-green-500/30 transition-colors duration-200"
+              className="w-full py-2 px-4 text-lg font-semibold rounded-lg bg-green-500/20 text-green-300 border border-green-500/30 hover:bg-green-500/30 transition-colors duration-200"
             >
               Send Message
             </button>
-          </div>
-        </form>
+          </motion.div>
+        </motion.form>
 
-        <p className="mt-6 text-center text-gray-400">
+        <motion.p className="mt-6 text-center text-gray-400" variants={item}>
           Or connect with me on{" "}
           <a
             href="https://www.linkedin.com/in/miwa-laksmana/"
@@ -70,8 +114,8 @@ export default function ContactSection() {
           >
             LinkedIn
           </a>
-        </p>
-      </div>
-    </section>
+        </motion.p>
+      </motion.div>
+    </motion.section>
   );
 }
