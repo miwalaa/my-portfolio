@@ -8,7 +8,8 @@ import { Spinner } from "@/components/ui/shadcn-io/spinner";
 interface Post {
   id: string;
   title: string;
-  createdAt: string;
+  publishedAt: string;
+  slug: string;
 }
 
 function formatDate(timestamp: string) {
@@ -28,10 +29,19 @@ export default function PostsSection() {
     const fetchPosts = async () => {
       try {
         const response = await fetch("/api/posts");
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
         const data = await response.json();
-        setPosts(data);
+        if (data && Array.isArray(data)) {
+          setPosts(data);
+        } else {
+          console.error("Unexpected response format:", data);
+          setPosts([]);
+        }
       } catch (error) {
         console.error("Failed to fetch posts:", error);
+        setPosts([]);
       } finally {
         setIsLoading(false);
       }
@@ -106,7 +116,7 @@ export default function PostsSection() {
               className="group"
             >
               <Link
-                href={`/posts/${post.id}`}
+                href={`/posts/${post.slug}`}
                 className="block hover:opacity-90 transition-opacity"
               >
                 <article className="space-y-2 sm:space-y-3 md:space-y-4">
@@ -114,10 +124,10 @@ export default function PostsSection() {
                     {post.title}
                   </h3>
                   <time
-                    dateTime={post.createdAt}
+                    dateTime={post.publishedAt}
                     className="text-slate-300 text-xs sm:text-sm md:text-base block"
                   >
-                    {formatDate(post.createdAt)}
+                    {formatDate(post.publishedAt)}
                   </time>
                 </article>
               </Link>

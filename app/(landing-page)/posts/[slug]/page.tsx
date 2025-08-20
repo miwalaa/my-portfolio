@@ -4,12 +4,13 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import RichTextRender from "@/components/RichTextRender";
 import Navbar from "../../components/Navbar";
+import { Spinner } from "@/components/ui/shadcn-io/spinner";
 
 type Post = {
   id: string;
   title: string;
   content: any;
-  createdAt: string;
+  publishedAt: string;
   slug: string;
 };
 
@@ -21,15 +22,54 @@ function PostContent({ slug }: { slug: string }) {
   useEffect(() => {
     const fetchPost = async () => {
       try {
+        console.log(`Fetching post with slug: ${slug}`);
         const response = await fetch(`/api/posts/${slug}`);
-        if (!response.ok) {
-          throw new Error('Failed to fetch post');
+
+        // First try to parse the response as JSON
+        let data;
+        try {
+          data = await response.json();
+        } catch (jsonError) {
+          console.error("Failed to parse JSON response:", jsonError);
+          throw new Error("Invalid response from server");
         }
-        const data = await response.json();
-        setPost(data.post);
+
+        if (!response.ok) {
+          console.error("API Error Response:", {
+            status: response.status,
+            statusText: response.statusText,
+            data,
+          });
+          throw new Error(
+            data?.error ||
+              data?.message ||
+              `Failed to fetch post (${response.status} ${response.statusText})`
+          );
+        }
+
+        if (!data?.post) {
+          console.error("No post data in response:", data);
+          throw new Error("Post data is missing from response");
+        }
+
+        console.log("Received post data:", data.post);
+        setPost({
+          id: data.post.id,
+          title: data.post.title,
+          content: data.post.content,
+          publishedAt: data.post.publishedAt || new Date().toISOString(),
+          slug: data.post.slug,
+        });
       } catch (err) {
-        console.error("Error fetching post:", err);
-        setError("Failed to load post. Please try again later.");
+        const errorMessage =
+          err instanceof Error ? err.message : "Failed to load post";
+        console.error("Error in PostContent:", {
+          error: errorMessage,
+          errorObject: err,
+          slug,
+          timestamp: new Date().toISOString(),
+        });
+        setError(errorMessage);
       } finally {
         setLoading(false);
       }
@@ -46,7 +86,10 @@ function PostContent({ slug }: { slug: string }) {
   if (loading) {
     return (
       <div className="flex justify-center items-center min-h-[50vh]">
-        Loading...
+        <Spinner
+          className="h-8 md:h-12 w-8 md:w-12 text-white"
+          variant="bars"
+        />
       </div>
     );
   }
@@ -62,15 +105,13 @@ function PostContent({ slug }: { slug: string }) {
           <h1 className="text-4xl text-green-500 md:text-5xl font-bold mb-6">
             {post.title}
           </h1>
-          {post.createdAt && (
-            <p className="text-gray-500 dark:text-gray-400 mb-8">
-              {new Date(post.createdAt).toLocaleDateString("en-US", {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-              })}
-            </p>
-          )}
+          <p className="text-gray-500 dark:text-gray-400 mb-8">
+            {new Date(post.publishedAt).toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            })}
+          </p>
           <div className="prose-lg">
             <RichTextRender content={post.content} />
           </div>
