@@ -175,30 +175,30 @@ export default function Projects() {
   return (
     <motion.section
       id="projects"
-      className="mx-auto max-w-7xl mt-10 md:mt-20 py-10 px-4 sm:px-6 lg:px-8"
+      className="mx-auto max-w-7xl mt-6 md:mt-16 py-6 md:py-10 px-4 sm:px-6 lg:px-8"
       initial="hidden"
       whileInView="show"
-      viewport={{ once: true, amount: 0.2 }}
+      viewport={{ once: true, amount: 0.1 }}
       variants={container}
     >
-      <motion.div className="text-center mb-12" variants={item}>
-        <h2 className="text-3xl sm:text-4xl font-bold text-white">
+      <motion.div className="text-center mb-6 sm:mb-10 md:mb-12" variants={item}>
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">
           Featured Projects
         </h2>
       </motion.div>
       <motion.div
-        className={cn("grid grid-cols-1 sm:grid-cols-2 gap-4")}
+        className={cn("grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4")}
         variants={container}
       >
         {projects.map((project, index) => (
           <motion.div
             key={index}
-            className="relative group block p-2 h-full w-full"
+            className="relative group block p-1.5 sm:p-2 h-full w-full"
             onMouseEnter={() => setHoveredIndex(index)}
             onMouseLeave={() => setHoveredIndex(null)}
             variants={item}
-            whileHover={{ y: -5 }}
-            transition={{ duration: 0.2 }}
+            whileHover={{ y: -3 }}
+            transition={{ duration: 0.15 }}
           >
             <AnimatePresence>
               {hoveredIndex === index && (
@@ -208,29 +208,29 @@ export default function Projects() {
                   initial={{ opacity: 0 }}
                   animate={{
                     opacity: 1,
-                    transition: { duration: 0.3 },
+                    transition: { duration: 0.2 },
                   }}
                   exit={{
                     opacity: 0,
-                    transition: { duration: 0.3, delay: 0.2 },
+                    transition: { duration: 0.2, delay: 0.1 },
                   }}
                 />
               )}
             </AnimatePresence>
             <button
               onClick={() => handleProjectClick(project)}
-              className="rounded-md w-full p-6 overflow-hidden bg-[#090c11] backdrop-blur-sm group-hover:ring-2 ring-green-500 relative transition-all duration-500 border border-gray-700/50 text-left h-full"
+              className="rounded-md w-full p-4 sm:p-5 md:p-6 overflow-hidden bg-[#090c11] backdrop-blur-sm group-hover:ring-1 sm:group-hover:ring-2 ring-green-500 relative transition-all duration-300 border border-gray-700/50 text-left h-full"
             >
-              <div className="relative space-y-4">
-                <h3 className="text-lg font-semibold text-white">
+              <div className="relative space-y-2 sm:space-y-3 md:space-y-4">
+                <h3 className="text-base sm:text-lg font-semibold text-white leading-tight">
                   {project.title}
                 </h3>
-                <p className="text-sm text-gray-300">{project.description}</p>
-                <div className="flex flex-wrap gap-1 pt-2">
+                <p className="text-xs sm:text-sm text-gray-300 leading-relaxed">{project.description}</p>
+                <div className="flex flex-wrap gap-1 pt-1 sm:pt-2">
                   {project.tags.map((tag, tagIndex) => (
                     <span
                       key={tagIndex}
-                      className="px-2 py-0.5 text-xs rounded-full bg-green-500/20 text-green-300 border border-green-500/30"
+                      className="px-1.5 sm:px-2 py-0.5 text-[10px] sm:text-xs rounded-full bg-green-500/20 text-green-300 border border-green-500/30"
                     >
                       {tag}
                     </span>

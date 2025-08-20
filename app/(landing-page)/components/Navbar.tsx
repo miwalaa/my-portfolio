@@ -8,6 +8,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import { MovingBorderBtn } from "@/components/ui/moving.border";
+import { socials } from "./HeroSection";
 
 // Constants
 const NAV_ITEMS = ["Projects", "Blog", "Contact"] as const;
@@ -39,13 +40,13 @@ const NavLink = ({
   isMobile?: boolean;
 }) => {
   const pathname = usePathname();
-  const isHomePage = pathname === '/';
+  const isHomePage = pathname === "/";
   const targetId = item.toLowerCase();
   const href = `/#${targetId}`;
 
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
-    
+
     if (isHomePage) {
       // If already on home page, just scroll to section
       scrollToSection(targetId, onClick);
@@ -207,6 +208,17 @@ export default function Navbar() {
               🚀 Download CV
             </a>
           </MovingBorderBtn>
+          <div className="flex flex-row justify-center gap-8 mt-4">
+            {socials.map((social, index) => {
+              const Icon = social.Icon;
+
+              return (
+                <Link href={social.link} key={index} aria-label={social.label}>
+                  <Icon className="w-5 h-5 hover:scale-125 transition-all" />
+                </Link>
+              );
+            })}
+          </div>
         </div>
       </motion.div>
     </div>
