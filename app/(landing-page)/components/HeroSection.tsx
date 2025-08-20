@@ -61,7 +61,7 @@ export default function HeroSection() {
               <span>Download CV</span>
             </a>
           </MovingBorderBtn>
-          <div className="flex flex-row gap-4 mt-4 ml-1">
+          <div className="flex flex-row lg:gap-4 mt-4 ml-1 justify-center md:gap-8 lg:justify-start">
             {socials.map((social, index) => {
               const Icon = social.Icon;
 
