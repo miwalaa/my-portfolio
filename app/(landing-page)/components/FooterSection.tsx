@@ -1,11 +1,16 @@
 import React from "react";
 import { cn } from "@/lib/utils";
 
-export default function Footer() {
+interface FooterProps {
+  className?: string;
+}
+
+export default function Footer({ className }: FooterProps) {
   return (
     <nav
       className={cn(
-        "flex flex-col items-center py-10 border-t mt-10 animate-move-down"
+        "flex flex-col items-center py-10 border-t mt-10 animate-move-down",
+        className
       )}
     >
       <img src="../../favicon.ico" alt="M" className="h-10 mb-4" />
