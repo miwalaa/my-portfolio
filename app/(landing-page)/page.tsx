@@ -5,7 +5,7 @@ import Navbar from "./components/Navbar";
 import HeroSection from "./components/HeroSection";
 import Projects from "./components/ProjectsSection";
 import Footer from "./components/FooterSection";
-// import PostsSection from "./components/PostsSection";
+import PostsSection from "./components/PostsSection";
 import ContactSection from "./components/ContactSection";
 
 export default function page() {
@@ -26,7 +26,7 @@ export default function page() {
       <div className="relative">
         <div className="max-w-7xl mx-auto p-5 mt-10">
           <Projects />
-          {/* <PostsSection /> */}
+          <PostsSection />
           <ContactSection />
           <Footer />
         </div>

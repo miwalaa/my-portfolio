@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   keywords: ["personal portfolio", "miwalaksmana", "dailywebcoding"],
 };
 
-export default function LandingPageLayout({
+export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -33,15 +33,8 @@ export default function LandingPageLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${spaceGrotesk.className} min-h-screen bg-black`}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <div className="dark:bg-black bg-white dark:bg-grid-white/[0.08] bg-grid-black-[0.2] relative">
-            {children}
-          </div>
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+          {children}
         </ThemeProvider>
       </body>
     </html>
