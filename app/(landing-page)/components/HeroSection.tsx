@@ -1,36 +1,36 @@
-"use client";
-import React, { useState } from "react";
-import AnimatedLetters from "@/components/ui/AnimatedLetters";
-import Spline from "@splinetool/react-spline";
-import { MovingBorderBtn } from "@/components/ui/moving.border";
-import { Spinner } from "@/components/ui/shadcn-io/spinner";
-import { cn } from "@/lib/utils";
-import { SiGithub, SiLinkedin, SiTiktok } from "react-icons/si";
-import Link from "next/link";
+'use client'
+import React, { useState } from 'react'
+import AnimatedLetters from '@/components/ui/AnimatedLetters'
+import Spline from '@splinetool/react-spline'
+import { MovingBorderBtn } from '@/components/ui/moving.border'
+import { Spinner } from '@/components/ui/shadcn-io/spinner'
+import { cn } from '@/lib/utils'
+import { SiGithub, SiLinkedin, SiTiktok } from 'react-icons/si'
+import Link from 'next/link'
 
 export const socials = [
   {
-    link: "https://www.linkedin.com/in/miwa-laksmana-anthony-851a17344/",
-    label: "Linkedin",
+    link: 'https://www.linkedin.com/in/miwa-laksmana-anthony-851a17344/',
+    label: 'Linkedin',
     Icon: SiLinkedin,
   },
   {
-    link: "https://www.github.com/miwalaa",
-    label: "Github",
+    link: 'https://www.github.com/miwalaa',
+    label: 'Github',
     Icon: SiGithub,
   },
   {
-    link: "https://www.tiktok.com/@shinjurosan",
-    label: "Tiktok",
+    link: 'https://www.tiktok.com/@shinjurosan',
+    label: 'Tiktok',
     Icon: SiTiktok,
   },
-];
+]
 
 export default function HeroSection() {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true)
   const handleLoad = () => {
-    setIsLoading(false);
-  };
+    setIsLoading(false)
+  }
 
   return (
     <section className="min-h-[50vh] sm:min-h-[55vh] md:min-h-[60vh] flex flex-col-reverse gap-6 sm:gap-8 md:gap-10 lg:gap-0 lg:flex-row items-center justify-between animate-move-up">
@@ -46,7 +46,7 @@ export default function HeroSection() {
           create delightful user experiences.
         </p>
         <div className="pt-1 sm:pt-2 md:pt-0 hidden md:block">
-          <MovingBorderBtn
+          {/* <MovingBorderBtn
             borderRadius="0.5rem"
             className="w-full sm:w-auto px-4 py-2 sm:py-2.5 text-sm sm:text-base font-medium transition-all duration-200 hover:bg-sky-400/20 hover:shadow-lg"
             containerClassName="w-full"
@@ -60,16 +60,16 @@ export default function HeroSection() {
               <span>🚀</span>
               <span>Download CV</span>
             </a>
-          </MovingBorderBtn>
+          </MovingBorderBtn> */}
           <div className="flex flex-row lg:gap-4 mt-4 ml-1 justify-center md:gap-8 lg:justify-start">
             {socials.map((social, index) => {
-              const Icon = social.Icon;
+              const Icon = social.Icon
 
               return (
                 <Link href={social.link} key={index} aria-label={social.label}>
                   <Icon className="w-6 h-6 hover:scale-125 transition-all" />
                 </Link>
-              );
+              )
             })}
           </div>
         </div>
@@ -83,12 +83,12 @@ export default function HeroSection() {
         <Spline
           scene="https://prod.spline.design/w2fPTp2mz7kCyOwD/scene.splinecode"
           className={cn(
-            "w-full h-full transition-opacity duration-500",
-            isLoading ? "opacity-0" : "opacity-100"
+            'w-full h-full transition-opacity duration-500',
+            isLoading ? 'opacity-0' : 'opacity-100'
           )}
           onLoad={handleLoad}
         />
       </div>
     </section>
-  );
+  )
 }
