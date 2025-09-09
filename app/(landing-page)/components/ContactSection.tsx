@@ -1,38 +1,39 @@
-"use client";
+'use client'
 
-import { motion, Variants } from "framer-motion";
-import { useState } from "react";
+import { motion, Variants } from 'framer-motion'
+import { useState } from 'react'
+import emailjs from '@emailjs/browser'
 
 type FormData = {
-  name: string;
-  email: string;
-  message: string;
-};
+  name: string
+  email: string
+  message: string
+}
 
 export default function ContactSection() {
   const [formData, setFormData] = useState<FormData>({
-    name: "",
-    email: "",
-    message: "",
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
+    name: '',
+    email: '',
+    message: '',
+  })
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState<{
-    success: boolean;
-    message: string;
-  } | null>(null);
+    success: boolean
+    message: string
+  } | null>(null)
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    const { id, value } = e.target;
+    const { id, value } = e.target
     setFormData((prev) => ({
       ...prev,
       [id]: value,
-    }));
-  };
+    }))
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+    e.preventDefault()
 
     // Basic validation
     if (
@@ -42,59 +43,58 @@ export default function ContactSection() {
     ) {
       setSubmitStatus({
         success: false,
-        message: "Please fill in all fields",
-      });
-      return;
+        message: 'Please fill in all fields',
+      })
+      return
     }
 
     // Email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     if (!emailRegex.test(formData.email)) {
       setSubmitStatus({
         success: false,
-        message: "Please enter a valid email address",
-      });
-      return;
+        message: 'Please enter a valid email address',
+      })
+      return
     }
 
-    setIsSubmitting(true);
-    setSubmitStatus(null);
+    setIsSubmitting(true)
+    setSubmitStatus(null)
 
     try {
-      // Replace this URL with your form submission endpoint
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      await emailjs.send(
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || '',
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || '',
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          message: formData.message,
+          time: new Date().toLocaleString(), // Add current time
         },
-        body: JSON.stringify(formData),
-      });
+        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
+      )
 
-      if (response.ok) {
-        setSubmitStatus({
-          success: true,
-          message: "Message sent successfully! I'll get back to you soon.",
-        });
-        // Reset form
-        setFormData({
-          name: "",
-          email: "",
-          message: "",
-        });
-      } else {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Failed to send message");
-      }
+      setSubmitStatus({
+        success: true,
+        message: "Message sent successfully! I'll get back to you soon.",
+      })
+
+      // Reset form
+      setFormData({
+        name: '',
+        email: '',
+        message: '',
+      })
     } catch (error) {
-      console.error("Error submitting form:", error);
+      console.error('Error sending email:', error)
       setSubmitStatus({
         success: false,
-        message: "Failed to send message. Please try again later.",
-      });
+        message: 'Failed to send message. Please try again later.',
+      })
     } finally {
-      setIsSubmitting(false);
+      setIsSubmitting(false)
     }
-  };
+  }
 
   // Animation variants
   const container: Variants = {
@@ -106,7 +106,7 @@ export default function ContactSection() {
         delayChildren: 0.2,
       },
     },
-  };
+  }
 
   const item: Variants = {
     hidden: { opacity: 0, y: 20 },
@@ -115,10 +115,10 @@ export default function ContactSection() {
       y: 0,
       transition: {
         duration: 0.5,
-        ease: "easeInOut" as const,
+        ease: 'easeInOut' as const,
       },
     },
-  };
+  }
 
   return (
     <motion.section
@@ -202,18 +202,18 @@ export default function ContactSection() {
               disabled={isSubmitting}
               className={`w-full py-2 px-4 text-base sm:text-lg font-semibold rounded-lg border transition-colors duration-200 ${
                 isSubmitting
-                  ? "bg-green-500/10 text-green-300/50 border-green-500/10 cursor-not-allowed"
-                  : "bg-green-500/20 text-green-300 border-green-500/30 hover:bg-green-500/30"
+                  ? 'bg-green-500/10 text-green-300/50 border-green-500/10 cursor-not-allowed'
+                  : 'bg-green-500/20 text-green-300 border-green-500/30 hover:bg-green-500/30'
               }`}
             >
-              {isSubmitting ? "Sending..." : "Send Message"}
+              {isSubmitting ? 'Sending...' : 'Send Message'}
             </button>
             {submitStatus && (
               <div
                 className={`mt-4 p-3 rounded-lg text-sm ${
                   submitStatus.success
-                    ? "bg-green-500/10 text-green-300"
-                    : "bg-red-500/10 text-red-300"
+                    ? 'bg-green-500/10 text-green-300'
+                    : 'bg-red-500/10 text-red-300'
                 }`}
               >
                 {submitStatus.message}
@@ -222,8 +222,11 @@ export default function ContactSection() {
           </motion.div>
         </motion.form>
 
-        <motion.p className="mt-4 sm:mt-6 text-center text-sm sm:text-base text-gray-400" variants={item}>
-          Or connect with me on{" "}
+        <motion.p
+          className="mt-4 sm:mt-6 text-center text-sm sm:text-base text-gray-400"
+          variants={item}
+        >
+          Or connect with me on{' '}
           <a
             href="https://www.linkedin.com/in/miwa-laksmana-anthony-851a17344/"
             className="text-green-400 hover:text-green-300 font-medium transition-colors hover:underline"
@@ -235,5 +238,5 @@ export default function ContactSection() {
         </motion.p>
       </motion.div>
     </motion.section>
-  );
+  )
 }
