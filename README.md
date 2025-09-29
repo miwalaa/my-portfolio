@@ -11,10 +11,6 @@
   <img src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="shields">
 </p>
 
-<h2>🚀 Demo</h2>
-
-[miwa-laksmana.vercel.app](https://miwa-laksmana.vercel.app)
-
 <h2>🛠️ Installation Steps:</h2>
 
 <h3>1. Clone the repository</h3>
