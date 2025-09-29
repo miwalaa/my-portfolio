@@ -5,6 +5,7 @@ import { useParams } from "next/navigation";
 import RichTextRender from "@/components/RichTextRender";
 import Navbar from "@/app/(landing-page)/components/Navbar";
 import { Spinner } from "@/components/ui/shadcn-io/spinner";
+import FooterSection from "@/app/(landing-page)/components/FooterSection";
 
 type Post = {
   id: string;
@@ -105,6 +106,7 @@ function PostContent({ slug }: { slug: string }) {
         </p>
       )}
       <RichTextRender content={post.content} />
+      <FooterSection className="border-none" />
     </article>
   );
 }
