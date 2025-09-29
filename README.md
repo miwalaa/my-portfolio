@@ -2,7 +2,7 @@
 
 <p align="center"><img src="https://socialify.git.ci/miwalaa/my-portfolio/image?language=1&name=1&owner=1&pattern=Solid&theme=Light"></p>
 
-<p id="description">This is my personal portfolio website, built to showcase my projects, skills, and experience as a front-end developer. It features a minimalist, modern design with smooth animations and responsive layouts.</p>
+<p id="description">This is my personal portfolio website, built to showcase my projects, blogs, and experience as a front-end developer. It features a minimalist, modern design with smooth animations and responsive layouts.</p>
 
 <p align="center">
   <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="shields">
