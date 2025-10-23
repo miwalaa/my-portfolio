@@ -69,6 +69,7 @@ export interface Config {
   collections: {
     posts: Post;
     media: Media;
+    projects: Project;
     users: User;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -78,6 +79,7 @@ export interface Config {
   collectionsSelect: {
     posts: PostsSelect<false> | PostsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    projects: ProjectsSelect<false> | ProjectsSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -174,6 +176,55 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "projects".
+ */
+export interface Project {
+  id: number;
+  title: string;
+  /**
+   * Short description for project card
+   */
+  description: string;
+  /**
+   * Detailed description for project modal
+   */
+  fullDescription: string;
+  /**
+   * Project cover image
+   */
+  image: number | Media;
+  /**
+   * Technology tags (e.g., React, TypeScript)
+   */
+  tags: {
+    tag: string;
+    id?: string | null;
+  }[];
+  /**
+   * Full technology stack used in the project
+   */
+  techStack: {
+    technology: string;
+    id?: string | null;
+  }[];
+  status: 'draft' | 'published';
+  /**
+   * GitHub repository URL (optional)
+   */
+  githubUrl?: string | null;
+  /**
+   * Live preview/demo URL (optional)
+   */
+  liveUrl?: string | null;
+  /**
+   * Display order (lower numbers appear first)
+   */
+  order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
 export interface User {
@@ -210,6 +261,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'media';
         value: number | Media;
+      } | null)
+    | ({
+        relationTo: 'projects';
+        value: number | Project;
       } | null)
     | ({
         relationTo: 'users';
@@ -294,6 +349,34 @@ export interface MediaSelect<T extends boolean = true> {
   height?: T;
   focalX?: T;
   focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "projects_select".
+ */
+export interface ProjectsSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  fullDescription?: T;
+  image?: T;
+  tags?:
+    | T
+    | {
+        tag?: T;
+        id?: T;
+      };
+  techStack?:
+    | T
+    | {
+        technology?: T;
+        id?: T;
+      };
+  status?: T;
+  githubUrl?: T;
+  liveUrl?: T;
+  order?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

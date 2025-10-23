@@ -2,7 +2,6 @@
 import React, { useState } from 'react'
 import AnimatedLetters from '@/components/ui/AnimatedLetters'
 import Spline from '@splinetool/react-spline'
-import { MovingBorderBtn } from '@/components/ui/moving.border'
 import { Spinner } from '@/components/ui/shadcn-io/spinner'
 import { cn } from '@/lib/utils'
 import { SiGithub, SiLinkedin, SiTiktok } from 'react-icons/si'
@@ -46,21 +45,6 @@ export default function HeroSection() {
           create delightful user experiences.
         </p>
         <div className="pt-1 sm:pt-2 md:pt-0 hidden md:block">
-          {/* <MovingBorderBtn
-            borderRadius="0.5rem"
-            className="w-full sm:w-auto px-4 py-2 sm:py-2.5 text-sm sm:text-base font-medium transition-all duration-200 hover:bg-sky-400/20 hover:shadow-lg"
-            containerClassName="w-full"
-          >
-            <a
-              href="https://drive.google.com/file/d/1nlsZP4AClli1VIMrD3yONkvF8XpjNtik/view?usp=sharing"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full flex items-center justify-center gap-1.5 sm:gap-2"
-            >
-              <span>🚀</span>
-              <span>Download CV</span>
-            </a>
-          </MovingBorderBtn> */}
           <div className="flex flex-row lg:gap-4 mt-4 ml-1 justify-center md:gap-8 lg:justify-start">
             {socials.map((social, index) => {
               const Icon = social.Icon
