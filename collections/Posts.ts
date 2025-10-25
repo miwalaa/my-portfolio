@@ -1,4 +1,19 @@
 import type { CollectionConfig } from "payload";
+import {
+  BoldFeature,
+  ItalicFeature,
+  UnderlineFeature,
+  StrikethroughFeature,
+  InlineCodeFeature,
+  ParagraphFeature,
+  HeadingFeature,
+  lexicalEditor,
+  LinkFeature,
+  OrderedListFeature,
+  UnorderedListFeature,
+  BlockquoteFeature,
+  HorizontalRuleFeature,
+} from "@payloadcms/richtext-lexical";
 
 export const Posts: CollectionConfig = {
   slug: "posts",
@@ -19,10 +34,22 @@ export const Posts: CollectionConfig = {
       required: true,
     },
     {
+      name: "coverImage",
+      type: "upload",
+      relationTo: "media",
+      required: true,
+      admin: {
+        description: "Featured image for the blog post",
+      },
+    },
+    {
       name: "slug",
       type: "text",
       required: true,
       unique: true,
+      admin: {
+        description: "URL-friendly version of the title",
+      },
     },
     {
       name: "excerpt",
@@ -35,11 +62,27 @@ export const Posts: CollectionConfig = {
       name: "content",
       type: "richText",
       required: true,
-    },
-    {
-      name: "coverImage",
-      type: "upload",
-      relationTo: "media", // assumes you have a Media collection
+      editor: lexicalEditor({
+        features: ({ defaultFeatures }) => [
+          ...defaultFeatures,
+          HeadingFeature({
+            enabledHeadingSizes: ["h1", "h2", "h3", "h4", "h5", "h6"],
+          }),
+          BoldFeature(),
+          ItalicFeature(),
+          UnderlineFeature(),
+          StrikethroughFeature(),
+          InlineCodeFeature(),
+          ParagraphFeature(),
+          LinkFeature({
+            enabledCollections: [],
+          }),
+          OrderedListFeature(),
+          UnorderedListFeature(),
+          BlockquoteFeature(),
+          HorizontalRuleFeature(),
+        ],
+      }),
     },
     {
       name: "tags",

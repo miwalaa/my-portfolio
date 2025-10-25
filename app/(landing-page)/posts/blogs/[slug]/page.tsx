@@ -2,10 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
+import Image from "next/image";
 import RichTextRender from "@/components/RichTextRender";
-import Navbar from "@/app/(landing-page)/components/Navbar";
+import Navbar from "@/app/(landing-page)/components/Navbar/Navbar";
 import { Spinner } from "@/components/ui/shadcn-io/spinner";
-import FooterSection from "@/app/(landing-page)/components/FooterSection";
+import FooterSection from "@/app/(landing-page)/components/FooterSection/FooterSection";
 
 type Post = {
   id: string;
@@ -14,6 +15,14 @@ type Post = {
   createdAt: string;
   publishedAt: string;
   slug: string;
+  coverImage?: {
+    url: string;
+    alt?: string;
+  } | null;
+  tags?: Array<{
+    tag: string;
+    id: string;
+  }>;
 };
 
 function PostContent({ slug }: { slug: string }) {
@@ -52,6 +61,16 @@ function PostContent({ slug }: { slug: string }) {
         }
 
         console.log("Post content:", JSON.stringify(postData.content, null, 2));
+        
+        // Extract coverImage data
+        let coverImage = null;
+        if (postData.coverImage && typeof postData.coverImage === 'object') {
+          coverImage = {
+            url: postData.coverImage.url || '',
+            alt: postData.coverImage.alt || postData.title,
+          };
+        }
+        
         setPost({
           id: postData.id,
           title: postData.title,
@@ -62,6 +81,8 @@ function PostContent({ slug }: { slug: string }) {
             postData.publishedAt ||
             postData.createdAt ||
             new Date().toISOString(),
+          coverImage,
+          tags: postData.tags || [],
         });
       } catch (err) {
         const message =
@@ -96,15 +117,48 @@ function PostContent({ slug }: { slug: string }) {
       <h1 className="text-4xl md:text-5xl font-bold mb-6 text-green-500">
         {post.title}
       </h1>
-      {post.createdAt && (
-        <p className="text-gray-500 dark:text-gray-400 mb-8">
-          {new Date(post.createdAt).toLocaleDateString("en-US", {
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-          })}
-        </p>
+      
+      {/* Meta Info */}
+      <div className="flex flex-wrap items-center gap-4 mb-8 text-gray-400">
+        {post.createdAt && (
+          <time>
+            {new Date(post.createdAt).toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            })}
+          </time>
+        )}
+        {post.tags && post.tags.length > 0 && (
+          <>
+            <span>•</span>
+            <div className="flex flex-wrap gap-2">
+              {post.tags.map((tagObj) => (
+                <span
+                  key={tagObj.id}
+                  className="px-3 py-1 bg-gray-800 text-green-400 text-xs rounded-full"
+                >
+                  {tagObj.tag}
+                </span>
+              ))}
+            </div>
+          </>
+        )}
+      </div>
+
+      {/* Cover Image */}
+      {post.coverImage?.url && (
+        <div className="relative w-full h-[200px] md:h-[300px] lg:h-[350px] rounded-xl overflow-hidden mb-12 border border-gray-800">
+          <Image
+            src={post.coverImage.url}
+            alt={post.coverImage.alt || post.title}
+            fill
+            className="object-cover"
+            priority
+          />
+        </div>
       )}
+      
       <RichTextRender content={post.content} />
       <FooterSection className="border-none" />
     </article>

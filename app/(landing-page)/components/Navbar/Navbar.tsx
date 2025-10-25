@@ -8,7 +8,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { motion } from 'framer-motion'
 import { MovingBorderBtn } from '@/components/ui/moving.border'
-import { socials } from './HeroSection'
+import { socials } from '../HeroSection/HeroSection'
 
 // Constants
 const NAV_ITEMS = ['Projects', 'Blog', 'Contact'] as const
@@ -42,9 +42,18 @@ const NavLink = ({
   const pathname = usePathname()
   const isHomePage = pathname === '/'
   const targetId = item.toLowerCase()
-  const href = `/#${targetId}`
+  
+  // Blog should navigate to /blog page, not scroll
+  const isBlogLink = item === 'Blog'
+  const href = isBlogLink ? '/blog' : `/#${targetId}`
 
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    // For blog link, use default navigation
+    if (isBlogLink) {
+      if (onClick) onClick()
+      return
+    }
+
     e.preventDefault()
 
     if (isHomePage) {

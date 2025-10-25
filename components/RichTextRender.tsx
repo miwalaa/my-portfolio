@@ -10,6 +10,7 @@ type TextNode = {
   italic?: boolean;
   underline?: boolean;
   code?: boolean;
+  format?: number; // Lexical uses bitwise format flags
 };
 
 type ElementNode = {
@@ -48,17 +49,27 @@ const RichTextRender: React.FC<Props> = ({ content, className = "" }) => {
     setIsMounted(true);
   }, []);
 
-  const renderTextNode = (node: TextNode, index: number) => {
+  const renderTextNode = (node: TextNode, index: number): React.ReactNode => {
     let text: React.ReactNode = node.text;
 
-    if (node.bold) text = <strong key={`bold-${index}`}>{text}</strong>;
-    if (node.italic) text = <em key={`italic-${index}`}>{text}</em>;
-    if (node.underline) text = <u key={`underline-${index}`}>{text}</u>;
-    if (node.code) {
+    // Handle Lexical format flags (bitwise)
+    // 1 = bold, 2 = italic, 4 = strikethrough, 8 = underline, 16 = code
+    const format = node.format || 0;
+    const isBold = node.bold || (format & 1) !== 0;
+    const isItalic = node.italic || (format & 2) !== 0;
+    const isUnderline = node.underline || (format & 8) !== 0;
+    const isCode = node.code || (format & 16) !== 0;
+    const isStrikethrough = (format & 4) !== 0;
+
+    if (isBold) text = <strong key={`bold-${index}`}>{text}</strong>;
+    if (isItalic) text = <em key={`italic-${index}`}>{text}</em>;
+    if (isUnderline) text = <u key={`underline-${index}`}>{text}</u>;
+    if (isStrikethrough) text = <s key={`strike-${index}`}>{text}</s>;
+    if (isCode) {
       text = (
         <code
           key={`code-${index}`}
-          className="bg-gray-100 dark:bg-gray-800 px-1.5 py-0.5 rounded text-sm font-mono"
+          className="bg-gray-900 text-green-400 px-2 py-1 rounded text-sm font-mono border border-gray-800"
         >
           {text}
         </code>
@@ -68,7 +79,7 @@ const RichTextRender: React.FC<Props> = ({ content, className = "" }) => {
     return <span key={`text-${index}`}>{text}</span>;
   };
 
-  const renderElementNode = (node: ElementNode, index: number) => {
+  const renderElementNode = (node: ElementNode, index: number): React.ReactNode => {
     if (!node.children) return null;
 
     const children = node.children
@@ -81,15 +92,29 @@ const RichTextRender: React.FC<Props> = ({ content, className = "" }) => {
       .filter(Boolean);
 
     switch (node.type) {
-      case "heading":
-        return (
-          <h2
-            key={`h2-${index}`}
-            className="text-3xl font-bold mt-8 mb-5 text-gray-800 dark:text-gray-100"
-          >
-            {children}
-          </h2>
+      case "heading": {
+        const rawTag = (node as any).tag || "h2";
+        const validHeadings = ["h1", "h2", "h3", "h4", "h5", "h6"];
+        const tag = validHeadings.includes(rawTag) ? rawTag : "h2";
+        
+        const sizeClasses: Record<string, string> = {
+          h1: "text-4xl font-bold mt-10 mb-6",
+          h2: "text-3xl font-bold mt-8 mb-5",
+          h3: "text-2xl font-bold mt-6 mb-4",
+          h4: "text-xl font-bold mt-5 mb-3",
+          h5: "text-lg font-bold mt-4 mb-2",
+          h6: "text-base font-bold mt-3 mb-2",
+        };
+        
+        return React.createElement(
+          tag,
+          {
+            key: `${tag}-${index}`,
+            className: `${sizeClasses[tag] || sizeClasses.h2} text-gray-800 dark:text-gray-100`,
+          },
+          children
         );
+      }
       case "paragraph":
         return (
           <p
@@ -203,6 +228,7 @@ const RichTextRender: React.FC<Props> = ({ content, className = "" }) => {
   }
 
   if (!content?.root?.children?.length) {
+    console.error("RichTextRender: No content or invalid structure", content);
     return (
       <div className="text-gray-500 dark:text-gray-400">
         No content available
@@ -210,15 +236,24 @@ const RichTextRender: React.FC<Props> = ({ content, className = "" }) => {
     );
   }
 
-  return (
-    <div className={`prose dark:prose-invert max-w-none ${className}`}>
-      {content.root.children.map((node, index) => (
-        <React.Fragment key={`node-${index}`}>
-          {renderElementNode(node as ElementNode, index)}
-        </React.Fragment>
-      ))}
-    </div>
-  );
+  try {
+    return (
+      <div className={`prose dark:prose-invert max-w-none ${className}`}>
+        {content.root.children.map((node, index) => (
+          <React.Fragment key={`node-${index}`}>
+            {renderElementNode(node as ElementNode, index)}
+          </React.Fragment>
+        ))}
+      </div>
+    );
+  } catch (error) {
+    console.error("RichTextRender: Error rendering content", error, content);
+    return (
+      <div className="text-red-500 dark:text-red-400 p-4 border border-red-500 rounded">
+        Error rendering content. Check console for details.
+      </div>
+    );
+  }
 };
 
 export default RichTextRender;

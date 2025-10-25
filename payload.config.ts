@@ -6,8 +6,16 @@ import { buildConfig } from "payload";
 import { Posts } from "./collections/Posts";
 import { Media } from "./collections/Media";
 import { Projects } from "./collections/Projects";
+import AdminLogo from "./app/(landing-page)/components/AdminLogo/AdminLogo";
 
 export default buildConfig({
+  admin: {
+    components: {
+    graphics: {
+      Logo: AdminLogo as any
+    }
+    }
+  },
   // If you'd like to use Rich Text, pass your editor here
   editor: lexicalEditor(),
 

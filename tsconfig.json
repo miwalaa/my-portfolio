@@ -27,13 +27,13 @@
         "./*"
       ],
       "@payload-config": [
-        "./payload.config.js"
+        "./payload.config.ts"
       ]
     }
   },
   "include": [
-    "./payload.config.js",
-    "app",
+    "./payload.config.ts",
+    "app/**/*",
     "next.config.ts",
     ".next/types/**/*.ts",
     "types/**/*.d.ts",

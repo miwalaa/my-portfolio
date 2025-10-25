@@ -106,7 +106,7 @@ export default function TechMarquee() {
   return (
     <div className="w-full py-8 overflow-hidden bg-black">
       <motion.div 
-        className="max-w-7xl mx-auto p-4"
+        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.2 }}

@@ -124,6 +124,13 @@ export interface UserAuthOperations {
 export interface Post {
   id: number;
   title: string;
+  /**
+   * Featured image for the blog post
+   */
+  coverImage: number | Media;
+  /**
+   * URL-friendly version of the title
+   */
   slug: string;
   /**
    * Short summary for previews or SEO
@@ -144,7 +151,6 @@ export interface Post {
     };
     [k: string]: unknown;
   };
-  coverImage?: (number | null) | Media;
   tags?:
     | {
         tag?: string | null;
@@ -318,10 +324,10 @@ export interface PayloadMigration {
  */
 export interface PostsSelect<T extends boolean = true> {
   title?: T;
+  coverImage?: T;
   slug?: T;
   excerpt?: T;
   content?: T;
-  coverImage?: T;
   tags?:
     | T
     | {
