@@ -13,12 +13,19 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
   const [selectedProject, setSelectedProject] = useState<Project | null>(null)
 
-  // --- ADDED CHECK ---
-  // If there are no projects or the projects array is empty, render nothing.
+  // If there are no projects or the projects array is empty, show a message.
   if (!projects || projects.length === 0) {
-    return null
+    return (
+      <section id="projects" className="mx-auto max-w-7xl pb-8 sm:pb-10 md:pb-12 lg:pb-16 px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-8 sm:mb-10 md:mb-12 lg:mb-16">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white">
+            Featured Projects
+          </h2>
+          <p className="text-gray-400 mt-4">No projects available yet.</p>
+        </div>
+      </section>
+    )
   }
-  // --- END ADDED CHECK ---
 
   // Animation variants
   const container: Variants = {

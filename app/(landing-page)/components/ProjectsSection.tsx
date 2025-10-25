@@ -1,19 +1,35 @@
 import ProjectsClient from './ProjectsClient'
 import { Project } from '@/types'
+import { getPayloadClient } from '@/lib/payload'
 
 async function getProjects(): Promise<Project[]> {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
-    const res = await fetch(`${baseUrl}/api/public-projects`, {
-      next: { revalidate: 3600 }, // Cache for 1 hour
+    const payload = await getPayloadClient()
+    const projects = await payload.find({
+      collection: 'projects',
+      where: {
+        status: {
+          equals: 'published',
+        },
+      },
+      sort: 'order',
+      depth: 1,
     })
 
-    if (!res.ok) {
-      console.error('Failed to fetch projects')
-      return []
-    }
+    // Transform the data to match the Project interface
+    const transformedProjects: Project[] = projects.docs.map((project: any) => ({
+      id: project.id,
+      title: project.title,
+      description: project.description,
+      fullDescription: project.fullDescription,
+      image: typeof project.image === 'object' ? project.image.url : project.image,
+      tags: project.tags?.map((t: any) => t.tag) || [],
+      techStack: project.techStack?.map((t: any) => t.technology) || [],
+      githubUrl: project.githubUrl,
+      liveUrl: project.liveUrl,
+    }))
 
-    return res.json()
+    return transformedProjects
   } catch (error) {
     console.error('Error fetching projects:', error)
     return []
