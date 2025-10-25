@@ -1,6 +1,7 @@
 import sharp from "sharp";
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
 import { postgresAdapter } from "@payloadcms/db-postgres";
+import { s3Storage } from "@payloadcms/storage-s3";
 import { buildConfig } from "payload";
 import { Posts } from "./collections/Posts";
 import { Media } from "./collections/Media";
@@ -27,4 +28,27 @@ export default buildConfig({
   // This is optional - if you don't need to do these things,
   // you don't need it!
   sharp,
+  
+  // Configure S3 storage for Supabase
+  plugins: [
+    ...(process.env.S3_ENDPOINT && process.env.S3_ACCESS_KEY_ID && process.env.S3_SECRET_ACCESS_KEY && process.env.S3_BUCKET
+      ? [
+          s3Storage({
+            collections: {
+              media: true, // Enable S3 storage for the 'media' collection
+            },
+            bucket: process.env.S3_BUCKET,
+            config: {
+              credentials: {
+                accessKeyId: process.env.S3_ACCESS_KEY_ID,
+                secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+              },
+              region: process.env.S3_REGION || "us-east-1",
+              endpoint: process.env.S3_ENDPOINT,
+              forcePathStyle: true, // Required for Supabase S3 compatibility
+            },
+          }),
+        ]
+      : []),
+  ],
 });

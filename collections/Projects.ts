@@ -1,4 +1,5 @@
 import type { CollectionConfig } from "payload";
+import { revalidatePath } from "next/cache";
 
 export const Projects: CollectionConfig = {
   slug: "projects",
@@ -11,6 +12,23 @@ export const Projects: CollectionConfig = {
     create: ({ req: { user } }) => Boolean(user), // only logged in users can create
     update: ({ req: { user } }) => Boolean(user),
     delete: ({ req: { user } }) => Boolean(user),
+  },
+  hooks: {
+    afterChange: [
+      ({ doc, operation }) => {
+        // Revalidate the homepage whenever a project is created, updated, or deleted
+        revalidatePath("/", "page");
+        console.log(`Project ${operation}: Revalidated homepage`);
+        return doc;
+      },
+    ],
+    afterDelete: [
+      () => {
+        // Revalidate the homepage when a project is deleted
+        revalidatePath("/", "page");
+        console.log("Project deleted: Revalidated homepage");
+      },
+    ],
   },
   fields: [
     {
