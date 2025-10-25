@@ -14,7 +14,7 @@ export default async function page() {
       <div className="relative">
         <div className="absolute inset-0 dark:bg-black bg-white dark:bg-grid-white/[0.1] bg-grid-black/[0.1] [mask-image:linear-gradient(to_bottom,black,transparent_90%)]"></div>
         <div className="relative z-10">
-          <div className="max-w-7xl mx-auto">
+          <div className="max-w-7xl mx-auto p-4">
             <Navbar />
             <HeroSection />
           </div>
@@ -26,7 +26,7 @@ export default async function page() {
 
       {/* Content below the faded background */}
       <div className="relative">
-        <div className="max-w-7xl mx-auto mt-10">
+        <div className="max-w-7xl mx-auto mt-10 p-4">
           <Projects />
           <PostsSection />
           <ContactSection />
