@@ -1,5 +1,39 @@
 import type { CollectionConfig } from "payload";
-import { revalidatePath } from "next/cache";
+
+// Helper function to trigger revalidation via API
+async function triggerRevalidation(path: string = "/", type: string = "page") {
+  try {
+    const revalidationSecret = process.env.REVALIDATION_SECRET;
+    
+    if (!revalidationSecret) {
+      console.warn("REVALIDATION_SECRET not set - skipping revalidation");
+      return;
+    }
+
+    // Get the base URL for the API call
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || process.env.VERCEL_URL 
+      ? `https://${process.env.VERCEL_URL}` 
+      : "http://localhost:3000";
+
+    const response = await fetch(`${baseUrl}/api/revalidate`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${revalidationSecret}`,
+      },
+      body: JSON.stringify({ path, type }),
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      console.log(`✓ Revalidated ${path}:`, data);
+    } else {
+      console.error(`✗ Revalidation failed for ${path}:`, response.status, await response.text());
+    }
+  } catch (error) {
+    console.error("✗ Revalidation error:", error);
+  }
+}
 
 export const Projects: CollectionConfig = {
   slug: "projects",
@@ -15,18 +49,18 @@ export const Projects: CollectionConfig = {
   },
   hooks: {
     afterChange: [
-      ({ doc, operation }) => {
-        // Revalidate the homepage whenever a project is created, updated, or deleted
-        revalidatePath("/", "page");
-        console.log(`Project ${operation}: Revalidated homepage`);
+      async ({ doc, operation }) => {
+        // Trigger revalidation via API (works on Vercel)
+        await triggerRevalidation("/", "page");
+        console.log(`Project ${operation}: Triggered revalidation`);
         return doc;
       },
     ],
     afterDelete: [
-      () => {
-        // Revalidate the homepage when a project is deleted
-        revalidatePath("/", "page");
-        console.log("Project deleted: Revalidated homepage");
+      async () => {
+        // Trigger revalidation via API (works on Vercel)
+        await triggerRevalidation("/", "page");
+        console.log("Project deleted: Triggered revalidation");
       },
     ],
   },
